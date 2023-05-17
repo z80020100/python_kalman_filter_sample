@@ -6,6 +6,7 @@ from kalman_filter import KalmanFilterOneDimension
 
 
 SAMPLE_DRIVING_DATA_FILE_NAME = "driving_data.csv"
+OUTPUT_FILE_NAME = "driving_data_filtered.csv"
 
 
 def main():
@@ -40,9 +41,28 @@ def main():
         else:
             pass
 
+    time = []
+    engine_speed_measure = []
+    accelerator_opening_angle_measure = []
+    turn_signal_measure = []
+    steering_angle_measure = []
     speed_measure = []
+    brake_oil_pressure_measure = []
+    yaw_rate_measure = []
+    forward_and_rearward_g_measure = []
+    lateral_g_measure = []
+
     for i in range(1, len(data)):
+        time.append(float(data[i][time_idx]))
+        engine_speed_measure.append(float(data[i][engine_speed_idx]))
+        accelerator_opening_angle_measure.append(float(data[i][accelerator_opening_angle_idx]))
+        turn_signal_measure.append(float(data[i][turn_signal_idx]))
+        steering_angle_measure.append(float(data[i][steering_angle_idx]))
         speed_measure.append(float(data[i][speed_idx]))
+        brake_oil_pressure_measure.append(float(data[i][brake_oil_pressure_idx]))
+        yaw_rate_measure.append(float(data[i][yaw_rate_idx]))
+        forward_and_rearward_g_measure.append(float(data[i][forward_and_rearward_g_idx]))
+        lateral_g_measure.append(float(data[i][lateral_g_idx]))
 
     speed_estimate = []
     # Set Kalman filter parameters
@@ -59,6 +79,21 @@ def main():
                                   control_matrix, measurable_input)
     for i in range(len(speed_measure)):
         speed_estimate.append(kf.execute(speed_measure[i]))
+
+    with open(OUTPUT_FILE_NAME, 'w') as f:
+        writer = csv.writer(f, lineterminator='\n')
+        writer.writerow(["Time", "EngineSpeed", "AcceleratorOpeningAngle",
+                         "TurnSignal", "SteeringAngle", "Speed",
+                         "BrakeOilPressure", "YawRate", "ForwardAndRearwardG",
+                         "LateralG"])
+        for i in range(len(time)):
+            writer.writerow([time[i], engine_speed_measure[i],
+                             accelerator_opening_angle_measure[i],
+                             turn_signal_measure[i], steering_angle_measure[i],
+                             speed_estimate[i], brake_oil_pressure_measure[i],
+                             yaw_rate_measure[i],
+                             forward_and_rearward_g_measure[i],
+                             lateral_g_measure[i]])
 
     plt.plot(speed_measure, label="measurement")
     plt.plot(speed_estimate, label="estimate")
