@@ -49,7 +49,7 @@ def main():
     state_transition_matrix = 1.0 # consider the current state as the next state (no change)
     observation_matrix = 1.0 # consider no scaling between the state and the measurement
     process_noise_matrix = 0.05 # guessing value
-    measurement_noise = 0.1 # guessing value
+    measurement_noise = 0.5 # guessing value
     estimated_error = 0.0 # according to the initialization estimate error
     control_matrix = 0.0 # no control input
     measurable_input = 0.0 # no measurable input
