@@ -95,8 +95,11 @@ def main():
                              forward_and_rearward_g_measure[i],
                              lateral_g_measure[i]])
 
+    plt.title("Speed")
     plt.plot(speed_measure, label="measurement")
     plt.plot(speed_estimate, label="estimate")
+    plt.xlabel("Time [s]")
+    plt.ylabel("Speed [km/h]")
     plt.legend()
     plt.show()
 
