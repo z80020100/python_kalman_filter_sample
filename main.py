@@ -20,13 +20,15 @@ YAW_RATE = "YawRate"
 FORWARD_AND_REARWARD_G = "ForwardAndRearwardG"
 LATERAL_G = "LateralG"
 
+COLUMN_NAME_ROW_NUM = 0
+
 def main():
     with open(SAMPLE_DRIVING_DATA_FILE_NAME) as f:
         reader = csv.reader(f)
         data = list(reader)
 
     # Get the index of each column
-    columns_name = data[0]
+    columns_name = data[COLUMN_NAME_ROW_NUM]
     for i in range(len(columns_name)):
         column_name = columns_name[i]
         if TIME in column_name:
@@ -63,7 +65,7 @@ def main():
     forward_and_rearward_g_measure = []
     lateral_g_measure = []
 
-    for i in range(1, len(data)):
+    for i in range(COLUMN_NAME_ROW_NUM + 1, len(data)):
         time.append(float(data[i][time_idx]))
         engine_speed_measure.append(float(data[i][engine_speed_idx]))
         accelerator_opening_angle_measure.append(float(data[i][accelerator_opening_angle_idx]))
@@ -93,6 +95,8 @@ def main():
 
     with open(OUTPUT_FILE_NAME, 'w') as f:
         writer = csv.writer(f, lineterminator='\n')
+        for i in range(COLUMN_NAME_ROW_NUM):
+            writer.writerow(data[i])
         writer.writerow([TIME, ENGINE_SPEED, ACCELERATOR_OPENING_ANGLE,
                          TURN_SIGNAL, STEERING_ANGLE, SPEED,
                          BRAKE_OIL_PRESSURE, YAW_RATE,
