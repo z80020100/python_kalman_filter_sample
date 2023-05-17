@@ -8,6 +8,17 @@ from kalman_filter import KalmanFilterOneDimension
 SAMPLE_DRIVING_DATA_FILE_NAME = "driving_data.csv"
 OUTPUT_FILE_NAME = "driving_data_filtered.csv"
 
+# CSV column names
+TIME = "Time"
+ENGINE_SPEED = "EngineSpeed"
+ACCELERATOR_OPENING_ANGLE = "AcceleratorOpeningAngle"
+TURN_SIGNAL = "TurnSignal"
+STEERING_ANGLE = "SteeringAngle"
+SPEED = "Speed"
+BRAKE_OIL_PRESSURE = "BrakeOilPressure"
+YAW_RATE = "YawRate"
+FORWARD_AND_REARWARD_G = "ForwardAndRearwardG"
+LATERAL_G = "LateralG"
 
 def main():
     with open(SAMPLE_DRIVING_DATA_FILE_NAME) as f:
@@ -18,25 +29,25 @@ def main():
     columns_name = data[0]
     for i in range(len(columns_name)):
         column_name = columns_name[i]
-        if "Time" in column_name:
+        if TIME in column_name:
             time_idx = i
-        elif "EngineSpeed" in column_name:
+        elif ENGINE_SPEED in column_name:
             engine_speed_idx = i
-        elif "AcceleratorOpeningAngle" in column_name:
+        elif ACCELERATOR_OPENING_ANGLE in column_name:
             accelerator_opening_angle_idx = i
-        elif "TurnSignal" in column_name:
+        elif TURN_SIGNAL in column_name:
             turn_signal_idx = i
-        elif "SteeringAngle" in column_name:
+        elif STEERING_ANGLE in column_name:
             steering_angle_idx = i
-        elif "Speed" in column_name:
+        elif SPEED in column_name:
             speed_idx = i
-        elif "BrakeOilPressure" in column_name:
+        elif BRAKE_OIL_PRESSURE in column_name:
             brake_oil_pressure_idx = i
-        elif "YawRate" in column_name:
+        elif YAW_RATE in column_name:
             yaw_rate_idx = i
-        elif "ForwardAndRearwardG" in column_name:
+        elif FORWARD_AND_REARWARD_G in column_name:
             forward_and_rearward_g_idx = i
-        elif "LateralG" in column_name:
+        elif LATERAL_G in column_name:
             lateral_g_idx = i
         else:
             pass
@@ -82,10 +93,10 @@ def main():
 
     with open(OUTPUT_FILE_NAME, 'w') as f:
         writer = csv.writer(f, lineterminator='\n')
-        writer.writerow(["Time", "EngineSpeed", "AcceleratorOpeningAngle",
-                         "TurnSignal", "SteeringAngle", "Speed",
-                         "BrakeOilPressure", "YawRate", "ForwardAndRearwardG",
-                         "LateralG"])
+        writer.writerow([TIME, ENGINE_SPEED, ACCELERATOR_OPENING_ANGLE,
+                         TURN_SIGNAL, STEERING_ANGLE, SPEED,
+                         BRAKE_OIL_PRESSURE, YAW_RATE,
+                         FORWARD_AND_REARWARD_G, LATERAL_G])
         for i in range(len(time)):
             writer.writerow([time[i], engine_speed_measure[i],
                              accelerator_opening_angle_measure[i],
