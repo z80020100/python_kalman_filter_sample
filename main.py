@@ -22,6 +22,7 @@ LATERAL_G = "LateralG"
 
 COLUMN_NAME_ROW_NUM = 0
 
+
 def main():
     with open(SAMPLE_DRIVING_DATA_FILE_NAME) as f:
         reader = csv.reader(f)
@@ -68,24 +69,28 @@ def main():
     for i in range(COLUMN_NAME_ROW_NUM + 1, len(data)):
         time.append(float(data[i][time_idx]))
         engine_speed_measure.append(float(data[i][engine_speed_idx]))
-        accelerator_opening_angle_measure.append(float(data[i][accelerator_opening_angle_idx]))
+        accelerator_opening_angle_measure.append(
+            float(data[i][accelerator_opening_angle_idx]))
         turn_signal_measure.append(float(data[i][turn_signal_idx]))
         steering_angle_measure.append(float(data[i][steering_angle_idx]))
         speed_measure.append(float(data[i][speed_idx]))
-        brake_oil_pressure_measure.append(float(data[i][brake_oil_pressure_idx]))
+        brake_oil_pressure_measure.append(
+            float(data[i][brake_oil_pressure_idx]))
         yaw_rate_measure.append(float(data[i][yaw_rate_idx]))
-        forward_and_rearward_g_measure.append(float(data[i][forward_and_rearward_g_idx]))
+        forward_and_rearward_g_measure.append(
+            float(data[i][forward_and_rearward_g_idx]))
         lateral_g_measure.append(float(data[i][lateral_g_idx]))
 
     speed_estimate = []
     # Set Kalman filter parameters
-    state_transition_matrix = 1.0 # consider the current state as the next state (no change)
-    observation_matrix = 1.0 # consider no scaling between the state and the measurement
-    process_noise_matrix = 0.05 # guessing value
-    measurement_noise = 0.5 # guessing value
-    estimated_error = 0.0 # according to the initialization estimate error
-    control_matrix = 0.0 # no control input
-    measurable_input = 0.0 # no measurable input
+    # consider the current state as the next state (no change)
+    state_transition_matrix = 1.0
+    observation_matrix = 1.0  # consider no scaling between the state and the measurement
+    process_noise_matrix = 0.05  # guessing value
+    measurement_noise = 0.5  # guessing value
+    estimated_error = 0.0  # according to the initialization estimate error
+    control_matrix = 0.0  # no control input
+    measurable_input = 0.0  # no measurable input
     kf = KalmanFilterOneDimension(speed_measure[0], state_transition_matrix,
                                   observation_matrix, process_noise_matrix,
                                   measurement_noise, estimated_error,
@@ -117,6 +122,7 @@ def main():
     plt.ylabel("Speed [km/h]")
     plt.legend()
     plt.show()
+
 
 if __name__ == "__main__":
     main()
