@@ -7,6 +7,7 @@ from kalman_filter import KalmanFilterOneDimension
 
 SAMPLE_DRIVING_DATA_FILE_NAME = "driving_data.csv"
 OUTPUT_FILE_NAME = "driving_data_filtered.csv"
+OUTPUT_DECIMAL_PLACES = 3
 
 # CSV column names
 TIME = "Time"
@@ -135,7 +136,7 @@ def main():
                                             control_matrix, measurable_input)
 
     # Execute Kalman filter
-    for i in range(len(speed_measure)):
+    for i in range(len(time)):
         engine_speed_estimate.append(
             engine_speed_kf.execute(engine_speed_measure[i]))
         accelerator_opening_angle_estimate.append(
@@ -160,10 +161,22 @@ def main():
                          BRAKE_OIL_PRESSURE, YAW_RATE,
                          FORWARD_AND_REARWARD_G, LATERAL_G])
         for i in range(len(time)):
-            writer.writerow([time[i], engine_speed_estimate[i], accelerator_opening_angle_estimate[i],
-                             turn_signal_measure[i], steering_angle_estimate[i], speed_estimate[i],
-                             brake_oil_pressure_estimate[i], yaw_rate_estimate[i],
-                             forward_and_rearward_g_estimate[i], lateral_g_estimate[i]])
+            writer.writerow([time[i],
+                             round(
+                                 engine_speed_estimate[i], OUTPUT_DECIMAL_PLACES),
+                             round(
+                                 accelerator_opening_angle_estimate[i], OUTPUT_DECIMAL_PLACES),
+                             turn_signal_measure[i],
+                             round(
+                                 steering_angle_estimate[i], OUTPUT_DECIMAL_PLACES),
+                             round(speed_estimate[i], OUTPUT_DECIMAL_PLACES),
+                             round(
+                                 brake_oil_pressure_estimate[i], OUTPUT_DECIMAL_PLACES),
+                             round(yaw_rate_estimate[i],
+                                   OUTPUT_DECIMAL_PLACES),
+                             round(
+                                 forward_and_rearward_g_estimate[i], OUTPUT_DECIMAL_PLACES),
+                             round(lateral_g_estimate[i], OUTPUT_DECIMAL_PLACES)])
 
     # Plot the result
     fig = plt.figure()
