@@ -153,7 +153,7 @@ def main():
 
     # Output the result
     with open(OUTPUT_FILE_NAME, "w") as f:
-        writer = csv.writer(f, lineterminator="\n")
+        writer = csv.writer(f, lineterminator="\r\n")
         for i in range(COLUMN_NAME_ROW_NUM):
             writer.writerow(data[i])
         writer.writerow([TIME, ENGINE_SPEED, ACCELERATOR_OPENING_ANGLE,
